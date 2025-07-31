@@ -11,38 +11,46 @@
 
 <!-- vscode-markdown-toc -->
 
-- [Relevant `pbr` version](#Relevantpbrversion)
-- [Version 1.1.8](#Version1.1.8)
-- [Version 1.1.6](#Version1.1.6)
-- [Gateways/Tunnels](#GatewaysTunnels)
-- [IPv4/IPv6/Port-Based Policies](#IPv4IPv6Port-BasedPolicies)
-- [Domain-Based Policies](#Domain-BasedPolicies)
-- [Physical Device Policies](#PhysicalDevicePolicies)
-- [DSCP Tag-Based Policies](#DSCPTag-BasedPolicies)
-- [DNS Policies](#DNSPolicies)
-- [Fw4 Nft File Mode](#Fw4NftFileMode)
-- [Custom User Files](#CustomUserFiles)
-- [Strict Enforcement](#StrictEnforcement)
-- [Use Resolver's Set Support](#UseResolversSetSupport)
-  - [Use DNSMASQ nft sets Support](#UseDNSMASQnftsetsSupport)
+- [Notable version changes](#Notableversionchanges)
+  - [Relevant `pbr` version](#Relevantpbrversion)
+  - [Version 1.1.8](#Version1.1.8)
+  - [Version 1.1.6](#Version1.1.6)
+- [Description](#Description)
+  - [Key Features](#KeyFeatures)
+- [Features](#Features)
+  - [Gateways/Tunnels](#GatewaysTunnels)
+  - [IPv4/IPv6/Port-Based Policies](#IPv4IPv6Port-BasedPolicies)
+  - [Domain-Based Policies](#Domain-BasedPolicies)
+  - [Physical Device Policies](#PhysicalDevicePolicies)
+  - [DSCP Tag-Based Policies](#DSCPTag-BasedPolicies)
+  - [DNS Policies](#DNSPolicies)
+  - [Fw4 Nft File Mode](#Fw4NftFileMode)
+  - [Custom User Files](#CustomUserFiles)
+  - [Strict Enforcement](#StrictEnforcement)
+  - [Use Resolver's Set Support](#UseResolversSetSupport)
+    - [Use DNSMASQ nft sets Support](#UseDNSMASQnftsetsSupport)
 - [Customization](#Customization)
 - [Other Features](#OtherFeatures)
-- [How It Works (`nft` mode)](#HowItWorksnftmode)
-- [Processing Policies](#ProcessingPolicies)
-  - [Processing Policies (`nft` mode)](#ProcessingPoliciesnftmode)
-- [Processing DNS Policies](#ProcessingDNSPolicies)
-  - [Processing DNS Policies (`nft` mode)](#ProcessingDNSPoliciesnftmode)
-- [Policies Priorities](#PoliciesPriorities)
-- [Processing Custom User Files](#ProcessingCustomUserFiles)
-  - [Processing Custom User Files (`nft` mode)](#ProcessingCustomUserFilesnftmode)
-- [How To Install - OpenWrt 23.05 and newer](#HowToInstall-OpenWrt23.05andnewer)
-- [How To Install - OpenWrt 22.03 and older](#HowToInstall-OpenWrt22.03andolder)
-- [Requirements](#Requirements)
-- [How to install dnsmasq-full](#Howtoinstalldnsmasq-full)
-- [Unmet dependencies](#Unmetdependencies)
-- [How to upgrade to a most recent version](#Howtoupgradetoamostrecentversion)
-- [Helpful Instructional Videos](#HelpfulInstructionalVideos)
-- [Service Configuration Settings](#ServiceConfigurationSettings)
+- [Screenshots (luci-app-pbr)](#Screenshotsluci-app-pbr)
+- [How It Works](#HowItWorks)
+  - [How It Works (`nft` mode)](#HowItWorksnftmode)
+  - [Processing Policies](#ProcessingPolicies)
+    - [Processing Policies (`nft` mode)](#ProcessingPoliciesnftmode)
+  - [Processing DNS Policies](#ProcessingDNSPolicies)
+    - [Processing DNS Policies (`nft` mode)](#ProcessingDNSPoliciesnftmode)
+  - [Policies Priorities](#PoliciesPriorities)
+  - [Processing Custom User Files](#ProcessingCustomUserFiles)
+    - [Processing Custom User Files (`nft` mode)](#ProcessingCustomUserFilesnftmode)
+- [How To Install](#HowToInstall)
+  - [How To Install - OpenWrt 23.05 and newer](#HowToInstall-OpenWrt23.05andnewer)
+  - [How To Install - OpenWrt 22.03 and older](#HowToInstall-OpenWrt22.03andolder)
+  - [Requirements](#Requirements)
+  - [How to install dnsmasq-full](#Howtoinstalldnsmasq-full)
+  - [Unmet dependencies](#Unmetdependencies)
+  - [How to upgrade to a most recent version](#Howtoupgradetoamostrecentversion)
+- [How to use](#Howtouse)
+  - [Helpful Instructional Videos](#HelpfulInstructionalVideos)
+  - [Service Configuration Settings](#ServiceConfigurationSettings)
   - [Default Settings](#DefaultSettings)
   - [Policy Options](#PolicyOptions)
   - [DNS Policy Options](#DNSPolicyOptions)
@@ -65,21 +73,29 @@
   - [Multiple OpenVPN Clients](#MultipleOpenVPNClients)
   - [Local OpenVPN Server + OpenVPN Client (Scenario 1)](#LocalOpenVPNServerOpenVPNClientScenario1)
   - [Local OpenVPN Server + OpenVPN Client (Scenario 2)](#LocalOpenVPNServerOpenVPNClientScenario2)
-- [A Word About Default Routing](#AWordAboutDefaultRouting)
-  - [OpenVPN tunnel configured via uci (/etc/config/openvpn)](#OpenVPNtunnelconfiguredviaucietcconfigopenvpn)
-  - [OpenVPN tunnel configured with .ovpn file](#OpenVPNtunnelconfiguredwith.ovpnfile)
-  - [WireGuard tunnel](#WireGuardtunnel)
-- [A Word About Cloudflare's 1.1.1.1 App](#AWordAboutCloudflares1.1.1.1App)
-- [A Word About DNS-over-HTTPS](#AWordAboutDNS-over-HTTPS)
-- [A Word About HTTP/3 (QUIC)](#AWordAboutHTTP3QUIC)
-- [A Word About IPv6 Routing](#AWordAboutIPv6Routing)
-- [A Word About Routing Netflix/Amazon Prime/Hulu Traffic](#AWordAboutRoutingNetflixAmazonPrimeHuluTraffic)
-  - [Routing Netflix/Amazon Prime/Hulu Traffic via VPN Tunnel](#RoutingNetflixAmazonPrimeHuluTrafficviaVPNTunnel)
-  - [Routing Netflix/Amazon Prime/Hulu Traffic via WAN](#RoutingNetflixAmazonPrimeHuluTrafficviaWAN)
-- [A Word About Interface Hotplug Script](#AWordAboutInterfaceHotplugScript)
-- [A Word About Broken Domain Policies](#AWordAboutBrokenDomainPolicies)
+- [Footnotes/Known Issues](#FootnotesKnownIssues)
+- [FAQ](#FAQ)
+  - [A Word About Default Routing](#AWordAboutDefaultRouting)
+    - [OpenVPN tunnel configured via uci (/etc/config/openvpn)](#OpenVPNtunnelconfiguredviaucietcconfigopenvpn)
+    - [OpenVPN tunnel configured with .ovpn file](#OpenVPNtunnelconfiguredwith.ovpnfile)
+    - [WireGuard tunnel](#WireGuardtunnel)
+  - [A Word About Cloudflare's 1.1.1.1 App](#AWordAboutCloudflares1.1.1.1App)
+  - [A Word About DNS-over-HTTPS](#AWordAboutDNS-over-HTTPS)
+  - [A Word About HTTP/3 (QUIC)](#AWordAboutHTTP3QUIC)
+  - [A Word About IPv6 Routing](#AWordAboutIPv6Routing)
+  - [A Word About Routing Netflix/Amazon Prime/Hulu Traffic](#AWordAboutRoutingNetflixAmazonPrimeHuluTraffic)
+    - [Routing Netflix/Amazon Prime/Hulu Traffic via VPN Tunnel](#RoutingNetflixAmazonPrimeHuluTrafficviaVPNTunnel)
+    - [Routing Netflix/Amazon Prime/Hulu Traffic via WAN](#RoutingNetflixAmazonPrimeHuluTrafficviaWAN)
+  - [A Word About Interface Hotplug Script](#AWordAboutInterfaceHotplugScript)
+  - [A Word About Broken Domain Policies](#AWordAboutBrokenDomainPolicies)
+- [Getting Help](#GettingHelp)
 - [First Troubleshooting Step](#FirstTroubleshootingStep)
-- [Warning: Please set 'dhcp.lan.force=1'](#Warning:Pleasesetdhcp.lan.force1)
+- [Donate](#Donate)
+- [Error Messages Details](#ErrorMessagesDetails)
+- [Warning Messages Details](#WarningMessagesDetails)
+  - [Warning: Please set 'dhcp.lan.force=1'](#Warning:Pleasesetdhcp.lan.force1)
+  - [Warning: Internal Version Mismatch](#Warning:InternalVersionMismatch)
+- [Thanks](#Thanks)
 
 <!-- vscode-markdown-toc-config
 	numbering=false
@@ -113,7 +129,7 @@ This README is relevant for the `pbr` version 1.1.8. If you're looking for the R
 
 This package provides flexible, rule-based routing for OpenWrt — allowing you to selectively route traffic over WAN, VPN, or tunnels based on source IP, destination IP, port, protocol, or domain. It is a lightweight alternative to mwan3 for advanced routing control.
 
-### Key Features
+### <a name='KeyFeatures'></a>Key Features
 
 - Route by IP, MAC address, port, protocol, or domain
 - Supports multiple interfaces: WAN, OpenVPN, WireGuard, tunnels
@@ -1014,6 +1030,29 @@ uci commit dhcp
 ```
 
 If your LAN interface name(s) are different from `lan`, adjust the command above.
+
+### <a name='Warning:InternalVersionMismatch'></a>Warning: Internal Version Mismatch
+
+When you visit the WebUI page of `luci-app-pbr`, it checks the internal versions of 3 components:
+
+- pbr: internal version stamp of principal package
+- luci-app-pbr:
+  - internal version stamp of the Javascript code you're seeing in the browser
+  - internal version stamp of the RPCD script which pulls information from your device and supplies it to the Javascript code
+
+Because of the way the principal app integrates with the WebUI, it is important that all three internal versions are in sync or at least the `luci-app-pbr` internal versions are not smaller than the `pbr` internal version.
+
+If you're seeing this message, make sure that the versions of the `pbr` and `luci-app-pbr` reported by `opkg` or `apk` on your device are the same by running:
+
+```sh
+command -v opkg > /dev/null 2>&1 && opkg list-installed | grep pbr
+command -v apk > /dev/null 2>&1 && apk list --installed | grep pbr
+```
+
+If you have the matching versions of the `pbr` and `luci-app-pbr` installed you may still be seeing the Version Mismatch message.
+
+- If the `luciCompat` is lower than `packageCompat`, it means that your browser has cached the Javascript code for WebUI, it may be outdated until you refresh/delete the browser cache (or open your device WebUI in Incognito mode or a different browser).
+- If the `rpcdCompat` is lower than the `packageCompat`, it means that the `RPCD` service needs to be restarted (run `service rpcd restart` and re-login to WebUI or just reboot your device).
 
 ## <a name='Thanks'></a>Thanks
 

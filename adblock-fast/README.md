@@ -299,9 +299,9 @@ Please head to [OpenWrt Forum](https://forum.openwrt.org/t/adblock-fast-ad-block
 
 ### Explanation of some warnings and errors
 
-#### Version Mismatch
+#### Internal version mismatch
 
-When you visit the WebUI (luci-app-adblock-fast), it checks the internal versions of 3 components:
+When you visit the WebUI page of `luci-app-adblock-fast`, it checks the internal versions of 3 components:
 
 - adblock-fast: internal version stamp of principal package
 - luci-app-adblock-fast:
