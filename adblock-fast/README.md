@@ -308,7 +308,7 @@ When you visit the WebUI page of `luci-app-adblock-fast`, it checks the internal
   - internal version stamp of the Javascript code you're seeing in the browser
   - internal version stamp of the RPCD script which pulls information from your device and supplies it to the Javascript code
 
-Because of the way the principal app integrates with the WebUI, it is important that all three internal versions are in sync or at least the `luci-app-adblock-fast` internal versions are not smaller than the `adblock-fast` internal version.
+Because of the way the principal app integrates with the WebUI, it is important that all three internal versions are in sync or at least the `luci-app-adblock-fast` internal versions are not lower than the `adblock-fast` internal version.
 
 If you're seeing this message, make sure that the versions of the `adblock-fast` and `luci-app-adblock-fast` reported by `opkg` or `apk` on your device are the same by running:
 
