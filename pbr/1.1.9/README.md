@@ -13,6 +13,7 @@
 
 - [Notable version changes](#Notableversionchanges)
   - [Relevant `pbr` version](#Relevantpbrversion)
+  - [Version 1.1.9](#Version1.1.9)
   - [Version 1.1.8](#Version1.1.8)
   - [Version 1.1.6](#Version1.1.6)
 - [Description](#Description)
@@ -107,7 +108,11 @@
 
 ### <a name='Relevantpbrversion'></a>Relevant `pbr` version
 
-This README is relevant for the `pbr` version 1.1.8. If you're looking for the README for the newer or older version of `pbr`, please check the README links within the `luci-app-pbr`.
+This README is relevant for the `pbr` version 1.1.9. If you're looking for the README for the newer or older version of `pbr`, please check the README links within the `luci-app-pbr`.
+
+### <a name='Version1.1.9'></a>Version 1.1.9
+
+- This release aims to improve CLI UI and performance
 
 ### <a name='Version1.1.8'></a>Version 1.1.8
 
