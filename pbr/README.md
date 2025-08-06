@@ -935,7 +935,7 @@ Sometimes[<sup>#8</sup>](#footnote8) the service doesn't get reloaded when suppo
 ```sh
 mkdir -p /etc/hotplug.d/iface/
 cat << 'EOF' > /etc/hotplug.d/iface/70-pbr
-!/bin/sh
+#!/bin/sh
 logger -t pbr "Reloading $INTERFACE due to $ACTION of $INTERFACE ($DEVICE)"
 /etc/init.d/pbr on_interface_reload "$INTERFACE"
 EOF
