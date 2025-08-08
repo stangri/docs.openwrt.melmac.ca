@@ -299,7 +299,7 @@ Please head to [OpenWrt Forum](https://forum.openwrt.org/t/adblock-fast-ad-block
 
 ## <a name='Donate'></a>Donate
 
-If you find `pbr` useful, know that your help is needed. Please consider donating to support development of this project. I've been developing it in my spare time without any external funding, outside of my GitHub sponsors. You can donate by:
+If you find `adblock-fast` or `luci-app-adblock-fast` useful, know that your help is needed. Please consider donating to support development of this project. I've been developing it in my spare time without any external funding, outside of my GitHub sponsors. You can donate by:
 
 - Sponsoring me on GitHub with [monthly donation](https://github.com/sponsors/stangri?frequency=recurring&sponsor=stangri).
 - Sponsoring me on GitHub with [one-time donation](https://github.com/sponsors/stangri?frequency=one-time&sponsor=stangri).
