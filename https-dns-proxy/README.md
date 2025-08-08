@@ -213,7 +213,7 @@ If you do want full control over your block- and allow-lists with the minimal fo
 
 ## <a name='Donate'></a>Donate
 
-If you find `https-dns-proxy` or `luci-app-https-dns-proxy` on OpenWrt useful, please consider donating to support development of this project. You can donate by:
+If you find `https-dns-proxy` or `luci-app-https-dns-proxy`, know that your help is needed. Please consider donating to support development of this project. I've been developing it in my spare time without any external funding, outside of my GitHub sponsors. You can donate by:
 
 - Sponsoring me on GitHub with [monthly donation](https://github.com/sponsors/stangri?frequency=recurring&sponsor=stangri).
 - Sponsoring me on GitHub with [one-time donation](https://github.com/sponsors/stangri?frequency=one-time&sponsor=stangri).

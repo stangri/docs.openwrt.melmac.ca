@@ -13,7 +13,6 @@
 
 - [Notable version changes](#Notableversionchanges)
   - [Relevant `pbr` version](#Relevantpbrversion)
-  - [Version 1.1.9](#Version1.1.9)
   - [Version 1.1.8](#Version1.1.8)
   - [Version 1.1.6](#Version1.1.6)
 - [Description](#Description)
@@ -108,11 +107,7 @@
 
 ### <a name='Relevantpbrversion'></a>Relevant `pbr` version
 
-This README is relevant for the `pbr` version 1.1.9. If you're looking for the README for the newer or older version of `pbr`, please check the README links within the `luci-app-pbr`.
-
-### <a name='Version1.1.9'></a>Version 1.1.9
-
-- This release aims to improve CLI UI and performance
+This README is relevant for the `pbr` version 1.1.8. If you're looking for the README for the newer or older version of `pbr`, please check the README links within the `luci-app-pbr`.
 
 ### <a name='Version1.1.8'></a>Version 1.1.8
 
@@ -1015,7 +1010,7 @@ If your router is set to use [default routing via VPN tunnel](#AWordAboutDefault
 
 ## <a name='Donate'></a>Donate
 
-If you find `pbr` useful, please consider donating to support development of this project. I've been developing it in my spare time without any external funding, outside of my GitHub sponsors. You can donate by:
+If you find `pbr` useful, know that your help is needed. Please consider donating to support development of this project. I've been developing it in my spare time without any external funding, outside of my GitHub sponsors. You can donate by:
 
 - Sponsoring me on GitHub with [monthly donation](https://github.com/sponsors/stangri?frequency=recurring&sponsor=stangri).
 - Sponsoring me on GitHub with [one-time donation](https://github.com/sponsors/stangri?frequency=one-time&sponsor=stangri).
