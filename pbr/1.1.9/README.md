@@ -13,8 +13,8 @@
 
 - [Notable version changes](#Notableversionchanges)
   - [Relevant `pbr` version](#Relevantpbrversion)
+  - [Version 1.1.9](#Version1.1.9)
   - [Version 1.1.8](#Version1.1.8)
-  - [Version 1.1.6](#Version1.1.6)
 - [Description](#Description)
   - [Key Features](#KeyFeatures)
 - [Features](#Features)
@@ -109,6 +109,13 @@
 
 This README is relevant for the `pbr` version 1.1.8. If you're looking for the README for the newer or older version of `pbr`, please check the README links within the `luci-app-pbr`.
 
+### <a name='Version1.1.9'></a>Version 1.1.9
+
+- Internal performance/reliability improvements.
+- Drop the fw4 hotplug/trigger script due to use of fw4 nft file.
+- The `procd_wan_interface`/`procd_wan6_interface` renamed to `procd_uplink_interface`/`procd_uplink6_interface` respectively.
+- Drop transition/upgrade path from `vpn-policy-routing` and `vpnbypass`.
+
 ### <a name='Version1.1.8'></a>Version 1.1.8
 
 - This release completely drops the iptables/ipset (and resolvers using ipset) support.
@@ -117,13 +124,6 @@ This README is relevant for the `pbr` version 1.1.8. If you're looking for the R
 - To enable targeting a Wireguard server tunnel, explicitly add its interface name to [supported_interface option](#supported_interface).
 - If the directory `/etc/pbr.d/` exists, all the files in that directory are processed as [custom user files](#CustomUserFiles) without the need to add them to `pbr` config.
 - The `procd_lan_device` config list allows you to override the default device (`br-lan`) used for LAN interface detection.
-
-### <a name='Version1.1.6'></a>Version 1.1.6
-
-- This release has separate code for nft- and iptables-capable versions, the nft version (`pbr` package) no longer supports resolver options with ipset.
-- The WAN interface name is no longer auto-detected. If you use a non-standard name for WAN interface, you can set it in [options](#procd_wan_interface).
-- If you use a non-standard name for LAN interface you can set it in [options](#procd_lan_device).
-- A new feature of [DNS Policies](#DNSPolicies) (also see [Processing DNS Policies](#ProcessingDNSPolicies)) was added to help ensure name resolution is sent to a specific resolver when needed.
 
 ## <a name='Description'></a>Description
 
@@ -372,8 +372,8 @@ As per screenshots above, in the Web UI the `pbr` configuration is split into `B
 |                | <a name="interface_name_dscp"></a>{interface_name}\_dscp        | integer     |                | Allows use of [DSCP-tag based policies](#DSCPTag-BasedPolicies) for a VPN interface.                                                                                                                                                                                                                                                                                                                                                             |
 | Hidden         | <a name="procd_lan_device"></a>procd_lan_device                 | list        | br-lan         | Allows you to override the default `br-lan` device used for the LAN interface detection.                                                                                                                                                                                                                                                                                                                                                         |
 | Hidden         | <a name="procd_reload_delay"></a>procd_reload_delay             | integer     | 0              | Time (in seconds) for PROCD_RELOAD_DELAY parameter.                                                                                                                                                                                                                                                                                                                                                                                              |
-| Hidden         | <a name="procd_wan_interface"></a>procd_wan_interface           |             |                | Override `wan` interface name with this interface. Newer versions do not attempt to auto-detect WAN interface name and setting this from CLI may be required.                                                                                                                                                                                                                                                                                    |
-| Hidden         | <a name="procd_wan6_interface"></a>procd_wan6_interface         |             |                | Override `wan6` interface name with this interface.                                                                                                                                                                                                                                                                                                                                                                                              |
+| Hidden         | <a name="procd_uplink_interface"></a>procd_uplink_interface     |             |                | Override `wan` interface name with this interface. Newer versions do not attempt to auto-detect WAN interface name and setting this from CLI may be required.                                                                                                                                                                                                                                                                                    |
+| Hidden         | <a name="procd_uplink6_interface"></a>procd_uplink6_interface   |             |                | Override `wan6` interface name with this interface.                                                                                                                                                                                                                                                                                                                                                                                              |
 | Hidden         | <a name="nft_rule_counter"></a>nft_rule_counter                 | boolean     | 0              | Use `counter` option when creating all `nft` rules. See [nftables wiki](https://wiki.nftables.org/wiki-nftables/index.php/Sets) for details.                                                                                                                                                                                                                                                                                                     |
 | Hidden         | <a name="nft_set_auto_merge"></a>nft_set_auto_merge             | boolean     | 1              | Use `auto-merge` option when creating all `nft` sets. See [nftables wiki](https://wiki.nftables.org/wiki-nftables/index.php/Sets) for details.                                                                                                                                                                                                                                                                                                   |
 | Hidden         | <a name="nft_set_counter"></a>nft_set_counter                   | boolean     | 0              | Use `counter` option when creating all `nft` sets. See [nftables wiki](https://wiki.nftables.org/wiki-nftables/index.php/Sets) for details.                                                                                                                                                                                                                                                                                                      |
@@ -1017,6 +1017,8 @@ If you find `pbr` useful, know that your help is needed. Please consider donatin
 - Sending a donation [thru PayPal](https://paypal.me/stan).
 
 ## <a name='ErrorMessagesDetails'></a>Error Messages Details
+
+If no details are available above for a specific error message you have received, please make sure to add information requested in [Getting Help](#GettingHelp) section to your forum post/GitHub issue. If you have discovered an issue with the `pbr` package, the information from [Getting Help](#GettingHelp) is crucial for fixing it.
 
 ## <a name='WarningMessagesDetails'></a>Warning Messages Details
 
