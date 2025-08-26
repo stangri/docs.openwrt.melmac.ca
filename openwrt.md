@@ -26,7 +26,7 @@ The OpenWrt core team maintains the following resources:
 - Source code for the project, from which anyone can build their own version of OpenWrt.
 - A command-line Image Builder for different achitectures, allowing anyone to quickly create their own version of official OpenWrt build with custom settings/packages.
 - An online [Firmware Selector](https://firmware-selector.openwrt.org/) allowing most of the functionality as an item above.
-- The pre-made firmware [image downloads](https://downloads.openwrt.org/releases/23.05.4/targets/) for all supported devices. The OpenWrt version 23.05.4 images are linked in this section and usually the last release or two are what is being updated by OpenWrt core team and what most people have running on their devices.
+- The pre-made firmware [image downloads](https://downloads.openwrt.org/releases/24.10.2/targets/) for all supported devices. The OpenWrt version 24.10.2 images are linked in this section and usually the last release or two are what is being updated by OpenWrt core team and what most people have running on their devices.
 
 The images availble from either [OpenWrt Downloads](https://downloads.openwrt.org/) or images created with an Image Builder/Firmware Selector are what is considered an official OpenWrt.
 
@@ -60,7 +60,7 @@ Usually, even the most OpenWrt-friendly (like [GL-iNet](https://www.gl-inet.com/
 - The included firmware is [OpenWrt-based](#HowisOpenWrtdifferentfromOpenWrt).
 - You can install an [official OpenWrt image](#WhatisOpenWrt) on the device made by vendor.
 
-The only notable exception is the upcoming OpenWrt One device, which I will link here when it's available for ordering.
+The only notable exception is the [OpenWrt One device](https://openwrt.org/toh/openwrt/one) which comes with the genuine, proper OpenWrt version out of the box.
 
 ## <a name='WhatdoIgainbyinstallingofficialOpenWrtonmydevice'></a>What do I gain by installing official OpenWrt on my device?
 
