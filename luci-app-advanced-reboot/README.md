@@ -26,6 +26,7 @@ Currently supported dual-firmware devices include:
 - Linksys EA8500
 - Linksys MR5500
 - Linksys MR8300
+- Linksys MR9000
 - Linksys MX2000
 - Linksys MX4200v1
 - Linksys MX4200v2
