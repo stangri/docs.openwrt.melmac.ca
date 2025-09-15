@@ -20,6 +20,7 @@
     - [HTTP/3 (QUIC) Support](#http3-quic-support)
   - [Unmet Dependencies](#unmet-dependencies)
   - [How To Install](#how-to-install)
+  - [Pre-Release/Testing Versions](#pre-releasetesting-versions)
   - [Default Settings](#default-settings)
   - [Configuration Settings](#configuration-settings)
     - [General Settings](#general-settings)
@@ -100,6 +101,10 @@ Install `https-dns-proxy` and `luci-app-https-dns-proxy` packages from Web UI or
 ```sh
 opkg update; opkg install https-dns-proxy luci-app-https-dns-proxy;
 ```
+
+## Pre-Release/Testing Versions
+
+The binaries newer than those in OpenWrt repositories for both most recent OpenWrt release and OpenWrt snapshots can usually be found at the [GitHub Releases](https://github.com/stangri/https-dns-proxy/releases) page.
 
 ## Default Settings
 
