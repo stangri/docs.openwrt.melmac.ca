@@ -22,6 +22,7 @@
 		- [Key Features](#key-features)
 	- [Features](#features)
 		- [Gateways/Tunnels](#gatewaystunnels)
+		- [Netifd integration](#netifd-integration)
 		- [IPv4/IPv6/Port-Based Policies](#ipv4ipv6port-based-policies)
 		- [Domain-Based Policies](#domain-based-policies)
 		- [Physical Device Policies](#physical-device-policies)
@@ -111,16 +112,15 @@
 
 ### <a name='Relevantpbrversion'></a>Relevant `pbr` version
 
-This README is relevant for the `pbr` version 1.2.0. If you're looking for the README for the newer or older version of `pbr`, please check the README links within the `luci-app-pbr`.
+This README is relevant for the `pbr` version 1.2.1. If you're looking for the README for the newer or older version of `pbr`, please check the README links within the `luci-app-pbr`.
 
-### <a name='Version1.2.0'></a>Version 1.2.1
+### <a name='Version1.2.1'></a>Version 1.2.1
 
-- Bring back `pbr-netifd` flavor.
 - The pbr netifd integration requires following pbr optons to be set:
   - `netifd_strict_enforcement`
   - `netifd_interface_default`
   - `netifd_interface_local`
-- More information on netifd integration to follow.
+- More information on [netifd integration](#netifd-integration) below.
 
 ### <a name='Version1.2.0'></a>Version 1.2.0
 
@@ -165,6 +165,73 @@ This package provides flexible, rule-based routing for OpenWrt — allowing you 
 - Tailscale tunnels supported (with device name tailscale\*).
 - Tor tunnels supported in nft mode only (interface name must match tor).
 - Wireguard tunnels supported (with protocol names wireguard\*).
+
+### Netifd integration
+
+From version 1.2.1, the `pbr` package can integrate better with netifd-capable interfaces, requiring no reload/restart when such interfaces are updated.
+
+To enable netifd integration (or netifd extensions), do the following:
+
+1. Set proper values for required netifd options:
+
+   ```sh
+   uci set pbr.config.netifd_strict_enforcement=1
+   uci set pbr.config.netifd_interface_default=wan
+   uci set pbr.config.netifd_interface_local=lan # use set or add_list to add multiple local interfaces like lan, guest, iot, kids, etc.
+   uci commit pbr
+   ```
+
+2. Run the following commands:
+
+   ```sh
+   uci set pbr.config.enabled=0
+   uci commit pbr
+   service pbr stop
+   service pbr netifd install
+   uci set pbr.config.enabled=1
+   uci commit pbr
+   service pbr start
+   ```
+
+NEED TESTING/LIKELY TO BE BROKEN:
+
+- no idea how setting route_allowed_ips=1 in wg client configs affects routing
+- setting netifd_interface_default to anything other than wan
+- mix of netifd (wireguard) and not netifd (openvpn) tunnels: the `process_interface` with `pre-init` is not aware of netifd records in rt_table, might break something
+- setting pbr.config.netifd_strict_enforcement to both 0 and 1 needs real-world testing
+- for non-netifd tunnels (like OpenVPN) I switched from copying all the routes from main table to pbr\_${interface} tables to:
+ip -4 rule replace fwmark "${mark}/${fw_mask}" lookup 'main' suppress_prefixlength 0 priority "$((priority - 1000))"
+  I hope it still works for VLANs and such
+- non-netifd tunnels might or might not work at all with netifd_strict_enforcement set to 1 (when there are no default routes in main table)
+- embedding the netifd flavour with all options correctly set into an image; not sure if using Makefile to install extension is better/worse than using uci-defaults file for that
+
+AVAILABLE COMMANDS:
+
+- service pbr netifd install: installs netifd support
+- service pbr netifd uninstall: uninstalls netifd support but keeps netifd_enabled flag in config (used in pre-rm)
+- service pbr netifd remove: uninstalls netifd support and removes the netifd_enabled flag in config (used when disabling netifd support so that - post-install will not reactivate it)
+- service pbr netifd check: helper to check the status of the netifd_enabled flag (used in post-install)
+
+OPTIONS:
+
+- netifd_interface_local: list of interfaces to be treated as LANs
+- netifd_interface_default: this interface will be set as default gateway interface by pbr-netifd
+- netifd_interface_default6: same as above, but for IPv6
+- netifd_strict_enforcement: when set to 0, sets the netifd_interface_default's netifd tables to 'main', so that the 'main' table now has a default route from that interface
+- netifd_strict_enforcement: when set to 1, uses the list from netifd_interface_local to set up routes for those interfaces to look up in the netifd_interface_default's table.
+
+TODO:
+
+- adjust/make configurable arbitrary priority shifts for default rules in both netifd/non-netifd configs (currently +/- 1000)
+- detect the reasons to reinstall netifd support and actively reinstall it (on start maybe?)
+- identify default gateway/interface in CLI/WebUI
+- support wg server interfaces same way they are currently supported thru explicit supported/ignored interface lists
+- support wan6
+- strict_enforcement option set to 2 and then neither main table to LANs rules are added?
+- automatically add catch-all marking policy in the end if pbr.config.netifd_strict_enforcement is set to 1/2?
+- WebUI: display netifd interfaces differently than non-netifd
+- WebUI: add UE to install netifd support
+- WebUI: add UE to detect the reasons to reinstall netifd support
 
 ### <a name='IPv4IPv6Port-BasedPolicies'></a>IPv4/IPv6/Port-Based Policies
 
