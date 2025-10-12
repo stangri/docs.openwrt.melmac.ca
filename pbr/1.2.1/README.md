@@ -268,6 +268,7 @@ If the custom user file includes are set, the service will load and execute them
 
 The following custom user files are provided:
 
+- `/usr/share/pbr/pbr.user.dnsprefetch`: provided to resolve destination domain names in advance when using the `dnsmasq.nftset` option.
 - `/usr/share/pbr/pbr.user.aws`: provided to pull the Continental US AWS IPv4 addresses into the WAN IPv4 sets that the service sets up.
 - `/usr/share/pbr/pbr.user.netflix`: provided to pull the Continental US Netflix IPv4 addresses into the WAN IPv4 sets that the service sets up.
 
@@ -622,6 +623,10 @@ config policy
 
 ```text
 config include
+        option path '/usr/share/pbr/pbr.user.dnsprefetch'
+        option enabled '0'
+
+config include
 	option path '/etc/pbr/pbr.user.aws'
 	option enabled '0'
 
@@ -900,11 +905,11 @@ config openvpn 'vpnserver'
 
 4.  <a name="footnote4"> </a> The service does **NOT** support the "killswitch" router mode (where there is no firewall forwarding from `lan` interface to `wan` interface, so if you stop the VPN tunnel, you have no Internet connection). For proper operation, leave all the default OpenWrt `network` and `firewall` settings for `lan` and `wan` intact.
 
-5.  <a name="footnote5"> </a> When using the `dnsmasq.nftset` option, please make sure to flush the DNS cache of the local devices, otherwise domain policies may not work until you do. If you're not sure how to flush the DNS cache (or if the device/OS doesn't offer an option to flush its DNS cache), reboot your local devices when starting to use the service and/or when connecting data-capable device to your WiFi.
+5.  <a name="footnote5"> </a> When using the `dnsmasq.nftset` option, please make sure to flush the DNS cache of the local devices, otherwise domain policies may not work until you do. If you're not sure how to flush the DNS cache (or if the device/OS doesn't offer an option to flush its DNS cache), reboot your local devices when starting to use the service and/or when connecting data-capable device to your WiFi. Alternatively, you could enable the custom user file `pbr.user.dnsprefetch` to resolve the destination domain names in advance. Note that doing so will negate one of the advantages[<sup>#7</sup>](#footnote7) of using `dnsmasq.nftset`.
 
 6.  <a name="footnote6"> </a> When using the policies targeting physical devices, you may need to make sure you have the following packages installed: `kmod-br-netfilter`, `kmod-ipt-physdev` and `iptables-mod-physdev`. Also, if your physical device is a part of the bridge, you may have to set `net.bridge.bridge-nf-call-iptables` to `1` in your `/etc/sysctl.conf`.
 
-7.  <a name="footnote7"> </a> If you're using domain names in the `dest_addr` option of the policy, it is recommended to use `dnsmasq.nftset` options for `resolver_set`. Otherwise, the domain name will be resolved when the service starts up and the resolved IP address(es) will be added to an apropriate set or an `iptables` or `nft` rule. Resolving a number of domains on start is a time consuming operation, while using the `dnsmasq.nftset` options allows transparent and fast addition of the correct domain IP addresses to the apropriate set on DNS request or when resolver is idle.
+7.  <a name="footnote7"> </a> If you're using domain names in the `dest_addr` option of the policy, it is recommended to use the `dnsmasq.nftset` option for `resolver_set`. Otherwise, the domain name will be resolved when the service starts up and the resolved IP address(es) will be added to an apropriate set or an `iptables` or `nft` rule. Resolving a number of domains on start is a time consuming operation, while using the `dnsmasq.nftset` option allows transparent and fast addition of the correct domain IP addresses to the apropriate set on DNS request or when resolver is idle.
 
 8.  <a name="footnote8"> </a> When service is started, it subscribes to the supported interfaces updates thru the PROCD. While I was never able to reproduce the issue, some customers report that this method doesn't always work in which case you may want to [set up iface hotplug script](#AWordAboutInterfaceHotplugScript) to reload service when the relevant interface(s) are updated.
 
@@ -1046,6 +1051,10 @@ Some examples on when the domain(s) policies defined in `pbr` may not work:
   - a local client is set to use a DNS different from router thru the DNS explicitly set on client, solved by removing explicit DNS set on client.
   - a local client is set to use an ecnrypted DNS, solved by disabling use of encrypted DNS requests.
   - a local client uses the hardcoded DNS servers which you cannot edit, solved by enabling DNS hijacking on your router.
+
+### <a name='A Word About Compatibility With Other Policy Routing Services'></a>A Word About Compatibility With Other Policy Routing Services
+
+Using `pbr` together with another policy routing service on the same system may or may not be possible, depending on how the other service works, and can lead to conflicts. One way to resolve those is changing the `uplink_ip_rules_priority` option. For example, setting it to `900` will allow using `pbr` for policy routing and `mwan3` for WAN failover or load balancing.
 
 ## <a name='GettingHelp'></a>Getting Help
 
