@@ -69,7 +69,11 @@ If the `luci-app-advanced-reboot` package with support of your device is not fou
 
 This package does not implement dual-firmware support to the OpenWrt device, rather it uses built-in OpenWrt tools to browse/switch partitions on dual-firmware devices supported by OpenWrt (usually by the device maintainer/committer into the OpenWrt tree).
 
-The dual-firmware devices need to be explicitly supported by this package (there's no auto-discovery of supported models). If you are interested in having a device supported by this package, please post in the [OpenWrt Forum Support Thread](https://forum.openwrt.org/t/3423) the following information:
+The dual-firmware devices need to be explicitly supported by this package (there's no auto-discovery of supported models). If you are interested in having a device supported by this package, you can either create the support file yourself or request it.
+
+### Requesting Support
+
+Please post in the [OpenWrt Forum Support Thread](https://forum.openwrt.org/t/3423) the following information:
 
 - Link to the device OpenWrt wiki Table of Hardware page and/or link to the git commit to OpenWrt tree with support of the device being added.
 - The output of the following commands from the console:
@@ -80,6 +84,121 @@ The dual-firmware devices need to be explicitly supported by this package (there
   cat /proc/mtd
   fw_printenv
   ```
+
+### Adding Device Support Yourself
+
+To support a new device, you need to create a `.json` file that tells the Advanced Reboot app how your router switches partitions.
+
+#### Step 1: Get the Board Name
+
+Log into your router via SSH and run:
+
+```bash
+cat /tmp/sysinfo/board_name
+```
+
+This string (e.g., `linksys,mx4200v1`) goes into the `board` list in your JSON file.
+
+#### Step 2: Identify Boot Variables
+
+Find out which environment variables change when you switch partitions.
+
+1. Run `fw_printenv` to see current settings.
+2. Look for variables like `boot_part`, `bootcmd`, or `boot_part_ready`.
+3. Note their values for Partition 1 vs. Partition 2.
+
+_If your device doesn't use environment variables (like some ZyXEL models), it might use a "dual-boot flag" bytes on a specific partition._
+
+#### Step 3: Identify Partitions
+
+Run `cat /proc/mtd` to see your partitions. You need to find:
+
+- The MTD device for Partition 1 (e.g., `mtd21`, `firmware`).
+- The MTD device for Partition 2 (e.g., `mtd23`, `alt_firmware`).
+- (Optional) An offset to find the "OpenWrt" label.
+
+#### Step 4: Write the JSON File
+
+Create a file named `your-device-model.json`. Use the template below:
+
+**Example (Environment Variable Method):**
+
+```json
+{
+  "device": {
+    "vendor": "Linksys",
+    "model": "MX4200v1",
+    "board": ["linksys,mx4200v1"]
+  },
+  "commands": {
+    "params": ["boot_part"],
+    "get": "fw_printenv",
+    "set": "fw_setenv",
+    "save": null
+  },
+  "partitions": [
+    {
+      "number": 1,
+      "param_values": ["1"],
+      "mtd": "mtd21",
+      "labelOffsetBytes": 192
+    },
+    {
+      "number": 2,
+      "param_values": ["2"],
+      "mtd": "mtd23",
+      "labelOffsetBytes": 192
+    }
+  ]
+}
+```
+
+- **device**: Vendor, Model, and the board name from Step 1.
+- **commands**:
+  - `params`: The variable names from Step 2.
+  - `get`/`set`: Usually `fw_printenv` and `fw_setenv`.
+- **partitions**:
+  - `number`: 1 or 2.
+  - `param_values`: The values for the variables in `params` (must be in the same order).
+  - `mtd`: The MTD identifier (e.g., `mtd21`).
+  - `labelOffsetBytes`: Where to look for the OS label (try 32, 64, or 192).
+
+#### Push the JSON to the Router
+
+Use `scp` (Secure Copy) to transfer your file to the router.
+
+**Command:**
+
+```bash
+scp your-device-model.json root@192.168.1.1:/usr/share/advanced-reboot/devices/
+```
+
+_(Replace `192.168.1.1` with your router's IP address)_
+
+If that directory doesn't exist yet, create it on the router first:
+
+```bash
+mkdir -p /usr/share/advanced-reboot/devices/
+```
+
+#### Test with CLI Commands
+
+After copying the file, log in to the router and test it using `ubus` commands.
+
+1.  **Check if the device is recognized**:
+
+    ```bash
+    ubus -v call luci.advanced-reboot obtain_device_info
+    ```
+
+    You should see your device info and partition status.
+
+2.  **Test Partition Switching** (Warning: effectively reboots/changes boot env!):
+
+    ```bash
+    ubus -S call luci.advanced-reboot boot_partition '{ "number": "1" }'
+    ubus -S call luci.advanced-reboot boot_partition '{ "number": "2" }'
+    ```
 
 ## Notes/Known Issues
 
