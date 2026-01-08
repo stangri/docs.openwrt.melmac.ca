@@ -31,6 +31,9 @@
       - [force\_dns\_port](#force_dns_port)
       - [force\_dns\_src\_interface](#force_dns_src_interface)
       - [procd\_trigger\_wan6](#procd_trigger_wan6)
+      - [heartbeat\_domain](#heartbeat_domain)
+      - [heartbeat\_sleep\_timeout](#heartbeat_sleep_timeout)
+      - [heartbeat\_wait\_timeout](#heartbeat_wait_timeout)
     - [Global Settings for Instances](#global-settings-for-instances)
     - [Instance Settings](#instance-settings)
   - [Using https-dns-proxy for ad-blocking](#using-https-dns-proxy-for-ad-blocking)
@@ -39,9 +42,9 @@
   - [Thanks](#thanks)
 
 <!-- vscode-markdown-toc-config
-	numbering=false
-	autoSave=true
-	/vscode-markdown-toc-config -->
+  numbering=false
+  autoSave=true
+  /vscode-markdown-toc-config -->
 <!-- /vscode-markdown-toc -->
 
 ## Description
@@ -118,30 +121,30 @@ Configuration contains the general (named) "main" config section where you can c
 
 ```text
 config main 'config'
-	option canary_domains_icloud '1'
-	option canary_domains_mozilla '1'
-	option dnsmasq_config_update '*'
-	option force_dns '1'
-	list force_dns_port '53'
-	list force_dns_port '853'
-	list force_dns_src_interface 'lan'
-	option procd_trigger_wan6 '0'
-	option heartbeat_domain 'heartbeat.melmac.ca'
-	option heartbeat_sleep_timeout '10'
-	option heartbeat_wait_timeout '10'
-	option user 'nobody'
-	option group 'nogroup'
-	option listen_addr '127.0.0.1'
+  option canary_domains_icloud '1'
+  option canary_domains_mozilla '1'
+  option dnsmasq_config_update '*'
+  option force_dns '1'
+  list force_dns_port '53'
+  list force_dns_port '853'
+  list force_dns_src_interface 'lan'
+  option procd_trigger_wan6 '0'
+  option heartbeat_domain 'heartbeat.melmac.ca'
+  option heartbeat_sleep_timeout '10'
+  option heartbeat_wait_timeout '10'
+  option user 'nobody'
+  option group 'nogroup'
+  option listen_addr '127.0.0.1'
 
 config https-dns-proxy
-	option bootstrap_dns '1.1.1.1,1.0.0.1'
-	option resolver_url 'https://cloudflare-dns.com/dns-query'
-	option listen_port '5053'
+  option bootstrap_dns '1.1.1.1,1.0.0.1'
+  option resolver_url 'https://cloudflare-dns.com/dns-query'
+  option listen_port '5053'
 
 config https-dns-proxy
-	option bootstrap_dns '8.8.8.8,8.8.4.4'
-	option resolver_url 'https://dns.google/dns-query'
-	option listen_port '5054'
+  option bootstrap_dns '8.8.8.8,8.8.4.4'
+  option resolver_url 'https://dns.google/dns-query'
+  option listen_port '5054'
 ```
 
 ### General Settings
@@ -183,6 +186,18 @@ This option allows you to override the interface (`lan` by default) which is use
 
 The service is restarted on WAN interface updates. As [OpenWrt may have floods of WAN6 updates](https://github.com/openwrt/openwrt/issues/5723#issuecomment-1040233237), the workaround for having the service restarted (and cause two `dnsmasq` restarts in turn) was to implement the `procd_trigger_wan6` boolean option (set to '0' as default) to enable/disable service restarts to be triggered by the WAN6 updates.
 
+#### heartbeat_domain
+
+The `heartbeat_domain` setting specifies the domain used for connectivity checks after the service starts. If set to `-`, connectivity checks are disabled. Default: `heartbeat.melmac.ca`.
+
+#### heartbeat_sleep_timeout
+
+The `heartbeat_sleep_timeout` setting specifies the time in seconds to wait before performing the connectivity check. Default: `10`.
+
+#### heartbeat_wait_timeout
+
+The `heartbeat_wait_timeout` setting specifies the time in seconds to wait for the connectivity check response. Default: `30`.
+
 ### Global Settings for Instances
 
 If defined in the main config, the settings below are inherited by all instances. So if you want all your instances to use the same setting for let's say `listen_addr`, you can define it in the main config and it will be inherited by all instances.
@@ -205,6 +220,7 @@ If defined in the main config, the settings below are inherited by all instances
 | logfile            | Filepath             |           | Full filepath to the file to log the instance events to.                                                                                                                                                                              |
 | statistic_interval | Integer [1-3600]     | 0         | Optional statistic printout interval.                                                                                                                                                                                                 |
 | log_limit          | Integer [100-100000] | 0         | Flight recorder: storing desired amount of logs from all levels in memory and dumping them on fatal error or on SIGUSR2 signal.                                                                                                       |
+| source_addr        | IP Address           |           | Optional source IP address for outgoing connections.                                                                                                                                                                                  |
 
 ### Instance Settings
 
@@ -232,6 +248,7 @@ The https-dns-proxy instance settings are:
 | logfile            | Filepath             |             | Full filepath to the file to log the instance events to.                                                                                                                                                                              |
 | statistic_interval | Integer [1-3600]     | 0           | Optional statistic printout interval.                                                                                                                                                                                                 |
 | log_limit          | Integer [100-100000] | 0           | Flight recorder: storing desired amount of logs from all levels in memory and dumping them on fatal error or on SIGUSR2 signal.                                                                                                       |
+| source_addr        | IP Address           |             | Optional source IP address for outgoing connections.                                                                                                                                                                                  |
 
 Please also refer to the [Usage section at upstream README](https://github.com/aarond10/https_dns_proxy/blob/master/README.md#usage) which may contain additional/more details on some parameters.
 
