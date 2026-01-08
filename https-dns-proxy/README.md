@@ -265,11 +265,11 @@ If you're using both ad-blocking and non-blocking resolvers and want the ad-bloc
 - move your ad-blocking resolvers to the top of the list of resolvers at the WebUI page or config file
 - set the `strictorder` option for your `dhcp.@dnsmasq[..]` instances to `1`
 
-If you have any questions about setting up `https-dns-proxy` for use with any of the above customizable ad-blocker resolvers, feel free to post in the OpenWrt forum using the link in the [Getting Help](#GettingHelp) section below.
+If you have any questions about setting up `https-dns-proxy` for use with any of the above customizable ad-blocker resolvers, feel free to post in the OpenWrt forum using the link in the [Getting Help](#getting-help) section below.
 
 If you do want full control over your block- and allow-lists with the minimal footprint package on your router, use the [adblock-fast](https://docs.openwrt.melmac.net/adblock-fast/) package and its WebUI: `luci-app-adblock-fast`.
 
-## Donate
+## <a name='Donate'></a>Donate
 
 If you find `https-dns-proxy` or `luci-app-https-dns-proxy`, know that your help is needed. Please consider donating to support development of this project. I've been developing it in my spare time without any external funding, outside of my GitHub sponsors. You can donate by:
 
