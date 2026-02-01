@@ -6,35 +6,44 @@ This is documentation for packages for OpenWrt devices created/maintained under 
 
 <!-- vscode-markdown-toc -->
 
-- [How to use](#Howtouse)
-  - [On your OpenWrt device](#OnyourOpenWrtdevice)
-    - [On your OpenWrt device with opkg](#OnyourOpenWrtdevicewithopkg)
-    - [On your OpenWrt device with apk](#OnyourOpenWrtdevicewithapk)
-  - [Image Builder](#ImageBuilder)
-    - [Image Builder with opkg](#ImageBuilderwithopkg)
-    - [Image Builder with apk](#ImageBuilderwithapk)
-  - [SDK](#SDK)
-- [Description of packages](#Descriptionofpackages)
-  - [adblock-fast & luci-app-adblock-fast](#adblock-fastluci-app-adblock-fast)
-  - [https-dns-proxy & luci-app-https-dns-proxy](#https-dns-proxyluci-app-https-dns-proxy)
-  - [luci-app-advanced-reboot](#luci-app-advanced-reboot)
-  - [netclient](#netclient)
-  - [pbr & luci-app-pbr](#pbrluci-app-pbr)
-- [Description of outdated/obsolete packages](#Descriptionofoutdatedobsoletepackages)
-  - [antminer-monitor](#antminer-monitor)
-  - [fakeinternet & luci-app-fakeinternet](#fakeinternetluci-app-fakeinternet)
-  - [libcurl with HTTP/3 and QUIC support](#libcurlwithHTTP3andQUICsupport)
-  - [luci-app-easyflash](#luci-app-easyflash)
-  - [luci-mod-alt-reboot](#luci-mod-alt-reboot)
-  - [luci-theme-material-old](#luci-theme-material-old)
-  - [nebula](#nebula)
-  - [simple-adblock & luci-app-simple-adblock](#simple-adblockluci-app-simple-adblock)
-  - [slider-support](#slider-support)
-  - [vpnbypass & luci-app-vpnbypass](#vpnbypassluci-app-vpnbypass)
-  - [vpn-policy-routing & luci-app-vpn-policy-routing](#vpn-policy-routingluci-app-vpn-policy-routing)
-  - [wlanblinker & luci-app-wlanblinker](#wlanblinkerluci-app-wlanblinker)
-  - [wireshark-helper & luci-app-wireshark-helper](#wireshark-helperluci-app-wireshark-helper)
-- [About MOSSDeF](#AboutMOSSDeF)
+- [The openwrt.melmac.ca packages documentation](#the-openwrtmelmacca-packages-documentation)
+  - [How to use](#how-to-use)
+    - [On your OpenWrt device](#on-your-openwrt-device)
+      - [On your OpenWrt device with opkg](#on-your-openwrt-device-with-opkg)
+        - [Add OPKG/IPK repository to your OpenWrt device (GitHub)](#add-opkgipk-repository-to-your-openwrt-device-github)
+        - [Add OPKG/IPK repository to your OpenWrt device (jsDelivr)](#add-opkgipk-repository-to-your-openwrt-device-jsdelivr)
+      - [On your OpenWrt device with apk](#on-your-openwrt-device-with-apk)
+        - [Add APK repository to your OpenWrt device (GitHub)](#add-apk-repository-to-your-openwrt-device-github)
+        - [Add APK repository to your OpenWrt device (jsDelivr)](#add-apk-repository-to-your-openwrt-device-jsdelivr)
+    - [Image Builder](#image-builder)
+      - [Image Builder with opkg](#image-builder-with-opkg)
+        - [Add OPKG/IPK repository to Image Builder (GitHub)](#add-opkgipk-repository-to-image-builder-github)
+        - [Add OPKG/IPK repository to Image Builder (jsDelivr)](#add-opkgipk-repository-to-image-builder-jsdelivr)
+      - [Image Builder with apk](#image-builder-with-apk)
+        - [Add APK repository to Image Builder (GitHub)](#add-apk-repository-to-image-builder-github)
+        - [Add APK repository to Image Builder (jsDelivr)](#add-apk-repository-to-image-builder-jsdelivr)
+    - [SDK](#sdk)
+  - [Description of packages](#description-of-packages)
+    - [adblock-fast \& luci-app-adblock-fast](#adblock-fast--luci-app-adblock-fast)
+    - [https-dns-proxy \& luci-app-https-dns-proxy](#https-dns-proxy--luci-app-https-dns-proxy)
+    - [luci-app-advanced-reboot](#luci-app-advanced-reboot)
+    - [netclient](#netclient)
+    - [pbr \& luci-app-pbr](#pbr--luci-app-pbr)
+  - [Description of outdated/obsolete packages](#description-of-outdatedobsolete-packages)
+    - [antminer-monitor](#antminer-monitor)
+    - [fakeinternet \& luci-app-fakeinternet](#fakeinternet--luci-app-fakeinternet)
+    - [libcurl with HTTP/3 and QUIC support](#libcurl-with-http3-and-quic-support)
+    - [luci-app-easyflash](#luci-app-easyflash)
+    - [luci-mod-alt-reboot](#luci-mod-alt-reboot)
+    - [luci-theme-material-old](#luci-theme-material-old)
+    - [nebula](#nebula)
+    - [simple-adblock \& luci-app-simple-adblock](#simple-adblock--luci-app-simple-adblock)
+    - [slider-support](#slider-support)
+    - [vpnbypass \& luci-app-vpnbypass](#vpnbypass--luci-app-vpnbypass)
+    - [vpn-policy-routing \& luci-app-vpn-policy-routing](#vpn-policy-routing--luci-app-vpn-policy-routing)
+    - [wlanblinker \& luci-app-wlanblinker](#wlanblinker--luci-app-wlanblinker)
+    - [wireshark-helper \& luci-app-wireshark-helper](#wireshark-helper--luci-app-wireshark-helper)
+  - [About MOSSDeF](#about-mossdef)
 
 <!-- vscode-markdown-toc-config
 	numbering=false
@@ -81,16 +90,16 @@ The apk binaries repository is currently hosted at [GitHub](https://github.com).
 ##### Add APK repository to your OpenWrt device (GitHub)
 
 ```sh
-echo 'https://apk.openwrt.melmac.ca/packages.adb' > /etc/apk/repositories.d/apk.openwrt.melmac.ca.list
 wget https://apk.openwrt.melmac.ca/apk.openwrt.melmac.ca.pem -O /etc/apk/keys/apk.openwrt.melmac.ca.pem
+echo 'https://apk.openwrt.melmac.ca/packages.adb' > /etc/apk/repositories.d/apk.openwrt.melmac.ca.list
 apk update
 ```
 
 ##### Add APK repository to your OpenWrt device (jsDelivr)
 
 ```sh
-echo 'https://cdn.jsdelivr.net/gh/stangri/apk.openwrt.melmac.ca/packages.adb' > /etc/apk/repositories.d/apk.openwrt.melmac.ca.list
 wget https://apk.openwrt.melmac.ca/apk.openwrt.melmac.ca.pem -O /etc/apk/keys/apk.openwrt.melmac.ca.pem
+echo 'https://cdn.jsdelivr.net/gh/stangri/apk.openwrt.melmac.ca/packages.adb' > /etc/apk/repositories.d/apk.openwrt.melmac.ca.list
 apk update
 ```
 
@@ -147,6 +156,7 @@ https://apk.openwrt.melmac.ca/packages.adb
 to the `repositories` file inside your Image Builder directory. You can use the following shell script code to achieve that:
 
 ```sh
+wget https://apk.openwrt.melmac.ca/apk.openwrt.melmac.ca.pem -O keys/apk.openwrt.melmac.ca.pem
 sed -i '/apk.openwrt.melmac.ca/d' repositories
 echo 'https://apk.openwrt.melmac.ca/packages.adb' >> repositories
 ```
@@ -162,6 +172,7 @@ https://cdn.jsdelivr.net/gh/stangri/apk.openwrt.melmac.ca/packages.adb
 to the `repositories` file inside your Image Builder directory. You can use the following shell script code to achieve that:
 
 ```sh
+wget https://apk.openwrt.melmac.ca/apk.openwrt.melmac.ca.pem -O keys/apk.openwrt.melmac.ca.pem
 sed -i '/apk.openwrt.melmac.ca/d' repositories
 echo 'https://cdn.jsdelivr.net/gh/stangri/apk.openwrt.melmac.ca/packages.adb' >> repositories
 ```
