@@ -990,8 +990,7 @@ uci export dhcp
 uci export firewall
 uci export network
 uci export pbr
-/etc/init.d/pbr status
-/etc/init.d/pbr reload
+/etc/init.d/pbr restart
 /etc/init.d/pbr status
 ```
 

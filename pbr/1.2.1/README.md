@@ -1066,7 +1066,15 @@ Using `pbr` together with another policy routing service on the same system may 
 
 General discussion of this package is happening at the [OpenWrt forum thread](https://forum.openwrt.org/t/policy-based-routing-pbr-package-discussion/140639).
 
-If things are not working as intended, please first set counters to 1 and verbosity to 2 by running these commands:
+If things are not working as intended, with pbr versions 1.2.1 and higher, please this command:
+
+```sh
+service pbr support
+```
+
+This will print all the diagnostic information you need to include with your post while masking sensitive information.
+
+If you have an older version of pbr which doesn't implement `support` command, please refer to the README for that specific version or first set counters to 1 and verbosity to 2 by running these commands:
 
 ```sh
 uci set pbr.config.nft_rule_counter='1'
@@ -1083,24 +1091,9 @@ uci export dhcp
 uci export firewall
 uci export network
 uci export pbr
-/etc/init.d/pbr status
-/etc/init.d/pbr reload
+/etc/init.d/pbr restart
 /etc/init.d/pbr status
 ```
-
-If you want to encrypt the files before sharing them, you can do so with the commands below (you'll need to have OpenSSL installed on your router):
-
-```ssh
-openssl rand 214 > /tmp/keyfile.key
-wget -O /tmp/dev.melmac.ca.pem https://dev.melmac.ca/repo/dev.melmac.ca.pem
-openssl pkeyutl -encrypt -inkey /tmp/dev.melmac.ca.pem -pubin -in /tmp/keyfile.key -out /tmp/keyfile.enc
-openssl enc -in /etc/config/dhcp -out /tmp/dhcp.enc -e -aes256 -pbkdf2 -kfile /tmp/keyfile.key
-openssl enc -in /etc/config/firewall -out /tmp/firewall.enc -e -aes256 -pbkdf2 -kfile /tmp/keyfile.key
-openssl enc -in /etc/config/network -out /tmp/network.enc -e -aes256 -pbkdf2 -kfile /tmp/keyfile.key
-openssl enc -in /etc/config/pbr -out /tmp/pbr.enc -e -aes256 -pbkdf2 -kfile /tmp/keyfile.key
-```
-
-Then share the following files: `/tmp/keyfile.enc`, `/tmp/dhcp.enc`, `/tmp/firewall.enc`, `/tmp/network.enc`, `/tmp/pbr.enc`.
 
 ## <a name='FirstTroubleshootingStep'></a>First Troubleshooting Step
 

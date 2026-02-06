@@ -844,21 +844,21 @@ To unset an OpenVPN tunnel as default route, set the following to the appropriat
 
 - For OpenVPN 2.4 and newer client config:
 
-	```text
-	list pull_filter 'ignore "redirect-gateway"'
-	```
+  ```text
+  list pull_filter 'ignore "redirect-gateway"'
+  ```
 
 - For OpenVPN 2.3 and older client config:
 
-	```text
-	option route_nopull '1'
-	```
+  ```text
+  option route_nopull '1'
+  ```
 
 - For your WireGuard (client) config:
 
-	```text
-	option route_allowed_ips '0'
-	```
+  ```text
+  option route_allowed_ips '0'
+  ```
 
 #### <a name='OpenVPNtunnelconfiguredwith.ovpnfile'></a>OpenVPN tunnel configured with .ovpn file
 
@@ -866,15 +866,15 @@ To unset an OpenVPN tunnel as default route, set the following to the appropriat
 
 - For OpenVPN 2.4 and newer client `.ovpn` file:
 
-	```text
-	pull-filter ignore "redirect-gateway"
-	```
+  ```text
+  pull-filter ignore "redirect-gateway"
+  ```
 
 - For OpenVPN 2.3 and older client `.ovpn` file:
 
-	```text
-	route-nopull
-	```
+  ```text
+  route-nopull
+  ```
 
 #### <a name='WireGuardtunnel'></a>WireGuard tunnel
 
@@ -882,9 +882,9 @@ To unset a WireGuard tunnel as default route, set the following to the appropria
 
 - For your WireGuard (client) config:
 
-	```text
-	option route_allowed_ips '0'
-	```
+  ```text
+  option route_allowed_ips '0'
+  ```
 
 - Routing WireGuard traffic may require setting `net.ipv4.conf.wg0.rp_filter = 2` in `/etc/sysctl.conf`. Please refer to [issue #41](https://github.com/stangri/source.openwrt.melmac.net/issues/41) for more details.
 
@@ -963,11 +963,11 @@ Some examples on when the domain(s) policies defined in `pbr` may not work:
 - you have a [DNS Policy](#DNSPolicies) set for a local device, so its DNS requests are not being sent to `dnsmasq-full`.
 - you have a domain name(s) based policy configured for LAN device(s), but are testing from the LAN device which is not affected by the policy or testing from the router.
 - a local (LAN/WLAN) client does not make a DNS request to your router, this is probably the most common cause and there could be a few reasons for the DNS requests to not reach router:
-	- a local client has the DNS response cached, solved by rebooting the client.
-	- a local client is set to use a DNS different from router thru option 6 defined in router `dhcp` settings, solved by editing your router's `dhcp` config.
-	- a local client is set to use a DNS different from router thru the DNS explicitly set on client, solved by removing explicit DNS set on client.
-	- a local client is set to use an ecnrypted DNS, solved by disabling use of encrypted DNS requests.
-	- a local client uses the hardcoded DNS servers which you cannot edit, solved by enabling DNS hijacking on your router.
+  - a local client has the DNS response cached, solved by rebooting the client.
+  - a local client is set to use a DNS different from router thru option 6 defined in router `dhcp` settings, solved by editing your router's `dhcp` config.
+  - a local client is set to use a DNS different from router thru the DNS explicitly set on client, solved by removing explicit DNS set on client.
+  - a local client is set to use an ecnrypted DNS, solved by disabling use of encrypted DNS requests.
+  - a local client uses the hardcoded DNS servers which you cannot edit, solved by enabling DNS hijacking on your router.
 
 ## <a name='GettingHelp'></a>Getting Help
 
@@ -990,8 +990,7 @@ uci export dhcp
 uci export firewall
 uci export network
 uci export pbr
-/etc/init.d/pbr status
-/etc/init.d/pbr reload
+/etc/init.d/pbr restart
 /etc/init.d/pbr status
 ```
 
@@ -1044,8 +1043,8 @@ When you visit the WebUI page of `luci-app-pbr`, it checks the internal versions
 
 - pbr: internal version stamp of principal package
 - luci-app-pbr:
-	- internal version stamp of the Javascript code you're seeing in the browser
-	- internal version stamp of the RPCD script which pulls information from your device and supplies it to the Javascript code
+  - internal version stamp of the Javascript code you're seeing in the browser
+  - internal version stamp of the RPCD script which pulls information from your device and supplies it to the Javascript code
 
 Because of the way the principal app integrates with the WebUI, it is important that all three internal versions are in sync or at least the `luci-app-pbr` internal versions are not lower than the `pbr` internal version.
 
